@@ -40,4 +40,13 @@ public class BoardQueryService {
         return Optional.empty();
     }
 
+    private BoardDetailsDTO toBoardDetailsDTO(BoardEntity boardEntity) {
+        try {
+            var columns = boardColumnDAO.findByBoardIdWithDetails(boardEntity.getId());
+            return new BoardDetailsDTO(boardEntity.getId(), boardEntity.getName(), columns);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching board details", e);
+        }
+    }
+
 }
